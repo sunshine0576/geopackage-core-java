@@ -11,6 +11,7 @@ import mil.nga.geopackage.core.srs.SpatialReferenceSystem;
 
 import org.osgeo.proj4j.CRSFactory;
 import org.osgeo.proj4j.CoordinateReferenceSystem;
+imoprt org.jeo.proj.wkt.ProjWKTParser;
 
 /**
  * Projection factory for coordinate projections and transformations
@@ -314,27 +315,30 @@ public class ProjectionFactory {
 
 			String parametersString = "";
 			// TODO parse WKT definition into proj4 parameters
+			// import org.jeo.proj.wkt; 
+			CoordinateReferenceSystem coordinateReferenceSystem=ProjWKTParser.parse(definition);
+			projection = new Projection(authorityProjections.getAuthority(), code, crs);
 
-			// Try to create the projection from the parameters
-			if (parametersString != null && !parametersString.isEmpty()) {
-				try {
-					CoordinateReferenceSystem crs = csFactory
-							.createFromParameters(
-									coordinateName(
-											authorityProjections.getAuthority(),
-											code), parametersString);
-					projection = new Projection(
-							authorityProjections.getAuthority(), code, crs);
-					authorityProjections.addProjection(projection);
-				} catch (Exception e) {
-					logger.log(Level.WARNING,
-							"Failed to create projection for authority: "
-									+ authorityProjections.getAuthority()
-									+ ", code: " + code + ", definition: "
-									+ definition + ", parameters: "
-									+ parametersString, e);
-				}
-			}
+// 			// Try to create the projection from the parameters
+// 			if (parametersString != null && !parametersString.isEmpty()) {
+// 				try {
+// 					CoordinateReferenceSystem crs = csFactory
+// 							.createFromParameters(
+// 									coordinateName(
+// 											authorityProjections.getAuthority(),
+// 											code), parametersString);
+// 					projection = new Projection(
+// 							authorityProjections.getAuthority(), code, crs);
+// 					authorityProjections.addProjection(projection);
+// 				} catch (Exception e) {
+// 					logger.log(Level.WARNING,
+// 							"Failed to create projection for authority: "
+// 									+ authorityProjections.getAuthority()
+// 									+ ", code: " + code + ", definition: "
+// 									+ definition + ", parameters: "
+// 									+ parametersString, e);
+// 				}
+// 			}
 
 		}
 
